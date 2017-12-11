@@ -28,7 +28,11 @@
 		<cfelse>
 			<cfthrow message="Unexpected direction: #direction#" />
 		</cfif>
-		<cfset distanceFromStart = Abs(x) + Abs(y) />
+		<cfif Abs(x) gt Abs(y)>
+			<cfset distanceFromStart = Abs(x) * 2 />
+		<cfelse>
+			<cfset distanceFromStart = Abs(x) + Abs(y) />
+		</cfif>
 	</cfloop>
 
 	<cfreturn distanceFromStart />
@@ -54,6 +58,10 @@
 	{
 		input = Trim(FileRead(ExpandPath('11.txt'))),
 		expectedOutput = 707
+	},
+	{
+		input = 'ne,se',
+		expectedOutput = 2
 	}
 ] />
 
