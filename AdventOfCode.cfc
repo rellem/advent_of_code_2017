@@ -1,5 +1,27 @@
 <cfcomponent output="false">
 
+	<cffunction name="isPrime" access="public" returntype="boolean" output="false">
+		<cfargument name="n" type="numeric" required="true" />
+
+		<cfif arguments.n lte 1>
+			<cfreturn false />
+		<cfelseif arguments.n lte 3>
+			<cfreturn true />
+		<cfelseif arguments.n % 2 eq 0 || arguments.n % 3 eq 0>
+			<cfreturn false />
+		</cfif>
+
+		<cfset var i = 5 />
+		<cfloop condition="i * i lte arguments.n">
+			<cfif arguments.n % i eq 0 || arguments.n % (i + 2) eq 0>
+				<cfreturn false />
+			</cfif>
+			<cfset i += 6 />
+		</cfloop>
+
+		<cfreturn true />
+	</cffunction>
+
 	<cffunction name="arrayOfNumbersToHexString" access="public" returntype="string" output="false">
 		<cfargument name="arrayOfNumbers" type="array" required="true" />
 
@@ -72,6 +94,75 @@
 		</cfloop>
 
 		<cfreturn arrayOfNumbersToHexString(denseHash) />
+	</cffunction>
+
+	<cffunction name="dance" access="public" returntype="string" output="false">
+		<cfargument name="programs" type="string" required="true" />
+		<cfargument name="moves" type="string" required="true" />
+
+		<cfset var numberOfPrograms = Len(arguments.programs) />
+
+		<cfset var programsByName = {} />
+		<cfset var programsByPos = {} />
+		<cfset var pos = '' />
+		<cfset var program = '' />
+		<cfloop from="0" to="#numberOfPrograms - 1#" index="pos">
+			<cfset program = { pos = pos, name = Mid(arguments.programs, pos + 1, 1) } />
+			<cfset programsByName[program.name] = program />
+			<cfset programsByPos[program.pos] = program />
+		</cfloop>
+
+		<cfset var move = '' />
+		<cfset var name = '' />
+		<cfset var pos1 = '' />
+		<cfset var pos2 = '' />
+		<cfset var program1 = '' />
+		<cfset var program2 = '' />
+		<cfset var name1 = '' />
+		<cfset var name2 = '' />
+		<cfloop list="#arguments.moves#" item="move">
+			<cfswitch expression="#Left(move, 1)#">
+				<cfcase value="s"><!--- shift to right --->
+					<cfloop collection="#programsByName#" item="name">
+						<cfset program = programsByName[name] />
+						<cfset program.pos = (program.pos + Mid(move, 2, 100)) mod numberOfPrograms />
+						<cfset programsByPos[program.pos] = program />
+					</cfloop>
+				</cfcase>
+				<cfcase value="x"> <!--- swap by pos --->
+					<cfset pos1 = ListGetAt(Mid(move, 2, 100), 1, '/') />
+					<cfset pos2 = ListGetAt(Mid(move, 2, 100), 2, '/') />
+					<cfset program1 = programsByPos[pos1] />
+					<cfset program2 = programsByPos[pos2] />
+					<cfset program1.pos = pos2 />
+					<cfset program2.pos = pos1 />
+					<cfset programsByPos[program1.pos] = program1 />
+					<cfset programsByPos[program2.pos] = program2 />
+				</cfcase>
+				<cfcase value="p"> <!--- swap by name --->
+					<cfset name1 = ListGetAt(Mid(move, 2, 100), 1, '/') />
+					<cfset name2 = ListGetAt(Mid(move, 2, 100), 2, '/') />
+					<cfset program1 = programsByName[name1] />
+					<cfset program2 = programsByName[name2] />
+					<cfset pos1 = program1.pos />
+					<cfset pos2 = program2.pos />
+					<cfset program1.pos = pos2 />
+					<cfset program2.pos = pos1 />
+					<cfset programsByPos[program1.pos] = program1 />
+					<cfset programsByPos[program2.pos] = program2 />
+				</cfcase>
+				<cfdefaultcase>
+					<cfthrow message="Unexpected move: #move#" />
+				</cfdefaultcase>
+			</cfswitch>
+		</cfloop>
+
+		<cfset var programsAfterDance = '' />
+		<cfloop from="0" to="#numberOfPrograms - 1#" index="pos">
+			<cfset programsAfterDance &= programsByPos[pos].name />
+		</cfloop>
+
+		<cfreturn programsAfterDance />
 	</cffunction>
 
 </cfcomponent>
