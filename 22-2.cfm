@@ -1,4 +1,4 @@
-<cfsetting requesttimeout="300" />
+<cfsetting requesttimeout="600" />
 
 <cffunction name="solve" output="false">
 	<cfargument name="input" required="true" />
