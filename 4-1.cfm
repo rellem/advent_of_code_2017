@@ -23,4 +23,22 @@
 	<cfreturn numValid />
 </cffunction>
 
-<cfoutput>#solve(FileRead(ExpandPath('4.txt')))#</cfoutput>
+<cfset testCases = [
+	{
+		input = 'aa bb cc dd ee',
+		expectedOutput = 1
+	},
+	{
+		input = 'aa bb cc dd aa',
+		expectedOutput = 0
+	},
+	{
+		input = 'aa bb cc dd aaa',
+		expectedOutput = 1
+	},
+	{
+		input = Trim(FileRead(ExpandPath('4.txt'))),
+		expectedOutput = 325
+	}
+] />
+<cfinclude template="test_runner_include.cfm" />

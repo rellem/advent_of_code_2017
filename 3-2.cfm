@@ -65,8 +65,26 @@
 	<cfthrow message="error" />
 </cffunction>
 
-<cfoutput><p>solve(1) = #solve(1)# (expecting 2)</p></cfoutput>
-<cfoutput><p>solve(59) = #solve(59)# (expecting 122)</p></cfoutput>
-<cfoutput><p>solve(133) = #solve(133)# (expecting 142)</p></cfoutput>
-<cfoutput><p>solve(351) = #solve(351)# (expecting 362)</p></cfoutput>
-<cfoutput><p>solve(325489) = #solve(325489)#</p></cfoutput>
+<cfset testCases = [
+	{
+		input = '1',
+		expectedOutput = 2
+	},
+	{
+		input = '59',
+		expectedOutput = 122
+	},
+	{
+		input = '133',
+		expectedOutput = 142
+	},
+	{
+		input = '351',
+		expectedOutput = 362
+	},
+	{
+		input = Trim(FileRead(ExpandPath('3.txt'))),
+		expectedOutput = 330785
+	}
+] />
+<cfinclude template="test_runner_include.cfm" />

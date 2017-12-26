@@ -44,8 +44,26 @@
 	<cfreturn Abs(x) + Abs(y) />
 </cffunction>
 
-<cfoutput><p>solve(1) = #solve(1)# (expecting 0)</p></cfoutput>
-<cfoutput><p>solve(12) = #solve(12)# (expecting 3)</p></cfoutput>
-<cfoutput><p>solve(23) = #solve(23)# (expecting 2)</p></cfoutput>
-<cfoutput><p>solve(1024) = #solve(1024)# (expecting 31)</p></cfoutput>
-<cfoutput><p>solve(325489) = #solve(325489)#</p></cfoutput>
+<cfset testCases = [
+	{
+		input = '1',
+		expectedOutput = 0
+	},
+	{
+		input = '12',
+		expectedOutput = 3
+	},
+	{
+		input = '23',
+		expectedOutput = 2
+	},
+	{
+		input = '1024',
+		expectedOutput = 31
+	},
+	{
+		input = Trim(FileRead(ExpandPath('3.txt'))),
+		expectedOutput = 552
+	}
+] />
+<cfinclude template="test_runner_include.cfm" />
