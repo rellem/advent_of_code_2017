@@ -23,4 +23,4 @@
 	<cfreturn numValid />
 </cffunction>
 
-<cfoutput>#solve(FileRead('4.txt'))#</cfoutput>
+<cfoutput>#solve(FileRead(ExpandPath('4.txt')))#</cfoutput>

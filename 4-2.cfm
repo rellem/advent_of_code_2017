@@ -5,13 +5,17 @@
 	<cfset var word = '' />
 	<cfset var newInput = '' >
 	<cfset var newLine = '' />
+	<cfset var letters = '' />
 	<cfset var sortedWord = '' />
 
 	<cfloop list="#arguments.input#" item="line" delimiters="#Chr(10)#">
 		<cfset line = Trim(line) />
 		<cfset newLine = '' />
 		<cfloop list="#line#" item="word" delimiters=" ">
-			<cfset sortedWord = ListSort(word, 'text', 'asc', '') />
+			<!--- ListSort with an empty string as delimiter does not work as expected on Adobe ColdFusion. --->
+			<cfset letters = ListToArray(word, '') />
+			<cfset ArraySort(letters, 'text', 'asc') />
+			<cfset sortedWord = ArrayToList(letters, '') />
 			<cfset newLine = ListAppend(newLine, sortedWord, ' ') />
 		</cfloop>
 		<cfset newInput &= newLine & Chr(10) />
@@ -37,4 +41,4 @@
 	<cfreturn numValid />
 </cffunction>
 
-<cfoutput>#solve(FileRead('4.txt'))#</cfoutput>
+<cfoutput>#solve(FileRead(ExpandPath('4.txt')))#</cfoutput>
