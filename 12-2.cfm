@@ -63,16 +63,16 @@
 		expectedOutput = '2'
 	},
 	{
-		input = Trim(FileRead(ExpandPath('12.txt'))),
-		expectedOutput = '211'
-	},
-	{
 		input = '',
 		expectedOutput = 0
 	},
 	{
 		input = '3 <-> 3',
 		expectedOutput = 1
+	},
+	{
+		input = Trim(FileRead(ExpandPath('12.txt'))),
+		expectedOutput = '211'
 	}
 ] />
 <cfinclude template="test_runner_include.cfm" />

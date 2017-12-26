@@ -42,12 +42,12 @@
 
 <cfset testCases = [
 	{
-		input = Trim(FileRead(ExpandPath('11.txt'))),
-		expectedOutput = 1490
-	},
-	{
 		input = 'ne,se',
 		expectedOutput = 2
+	},
+	{
+		input = Trim(FileRead(ExpandPath('11.txt'))),
+		expectedOutput = 1490
 	}
 ] />
 <cfinclude template="test_runner_include.cfm" />

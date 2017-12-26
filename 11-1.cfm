@@ -56,12 +56,12 @@
 		expectedOutput = 3
 	},
 	{
-		input = Trim(FileRead(ExpandPath('11.txt'))),
-		expectedOutput = 707
-	},
-	{
 		input = 'ne,se',
 		expectedOutput = 2
+	},
+	{
+		input = Trim(FileRead(ExpandPath('11.txt'))),
+		expectedOutput = 707
 	}
 ] />
 <cfinclude template="test_runner_include.cfm" />
